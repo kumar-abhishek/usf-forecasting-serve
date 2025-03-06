@@ -1,0 +1,12 @@
+pandas
+matplotlib
+seaborn
+plotly
+statsmodels
+xgboost
+lightgbm
+scikit-learn
+pystan==2.19.1.1
+prophet
+fastapi
+uvicorn
