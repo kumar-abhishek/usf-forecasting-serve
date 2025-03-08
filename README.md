@@ -126,3 +126,7 @@ docker rmi forecast-api  # Remove the image
 
 ## 📜 License
 This project is licensed under the MIT License.
+
+
+## Slides
+https://docs.google.com/presentation/d/1rxKUrLI-I_UOhm_Bx5lyZ4EvQqqCuHd2/edit#slide=id.p1
