@@ -10,3 +10,5 @@ pystan==2.19.1.1
 prophet
 fastapi
 uvicorn
+pytest 
+httpx

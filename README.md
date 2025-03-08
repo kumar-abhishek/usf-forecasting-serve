@@ -1,10 +1,69 @@
-
 # USF Forecasting Serve
 
 ## 📌 Project Overview
 This project provides an API for sales forecasting using LightGBM. The API is built using FastAPI and is containerized with Docker.
 
-## 🛠 Running the API with Docker
+## 🛠 Setting Up a Virtual Environment (Mac/Linux)
+
+To ensure a clean and isolated environment, we use Python's built-in `venv` module.
+
+### 1️⃣ Create and Activate a Virtual Environment
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+✅ Your terminal should now show `(venv)` before the command prompt.
+
+### 2️⃣ Upgrade `pip` and Install Dependencies
+```bash
+pip install --upgrade pip
+pip install -r api/requirements.txt
+```
+
+### 3️⃣ Install `pytest` for Testing
+```bash
+pip install pytest
+```
+
+### 4️⃣ Run Tests
+```bash
+PYTHONPATH=. pytest -v tests/
+```
+This should run the tests:
+```
+PYTHONPATH=. pytest -v tests/
+============================================================================================= test session starts ==============================================================================================
+platform darwin -- Python 3.9.6, pytest-8.3.5, pluggy-1.5.0 -- /Users/kumarabhishek/Documents/usf-forecasting-serve/venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /Users/kumarabhishek/Documents/usf-forecasting-serve
+plugins: anyio-4.8.0
+collected 6 items
+
+tests/test_api.py::test_status PASSED                                                                                                                                                                    [ 16%]
+tests/test_api.py::test_valid_prediction PASSED                                                                                                                                                          [ 33%]
+tests/test_api.py::test_invalid_date PASSED                                                                                                                                                              [ 50%]
+tests/test_api.py::test_missing_parameters PASSED                                                                                                                                                        [ 66%]
+tests/test_model.py::test_model_file_exists[/Users/kumarabhishek/Documents/usf-forecasting-serve/training/lgb_model.txt] PASSED                                                                          [ 83%]
+tests/test_model.py::test_model_loading PASSED                                                                                                                                                           [100%]
+
+============================================================================================== 6 passed in 0.42s ===============================================================================================
+```
+
+
+### 5️⃣ Run the API
+```bash
+uvicorn api.app:app --host 0.0.0.0 --port 8000
+```
+✅ The API will now be available at `http://localhost:8000`.
+
+### 6️⃣ Deactivate the Virtual Environment (When Done)
+```bash
+deactivate
+```
+
+---
+
+## 🏗 Running the API with Docker
 
 ### 1️⃣ Build the Docker Image
 ```bash
@@ -39,13 +98,13 @@ curl -X POST "http://localhost:8000/predict" \
 ```
 Expected Output:
 ```json
-{"sales_prediction": 8.428806020645183}
+{"sales_prediction": 42.5}
 ```
 
 ### 5️⃣ Debugging & Logs
 To view container logs in real-time:
 ```bash
-docker logs -f <container_id>
+docker logs -f $(docker ps -q)
 ```
 
 To run an interactive shell inside the container:
@@ -59,19 +118,6 @@ docker ps -a  # View all running/stopped containers
 docker rm $(docker ps -aq)  # Remove stopped containers
 docker rmi forecast-api  # Remove the image
 ```
-
-## 🏗 Model Training
-
-### 1️⃣ Install Dependencies
-```bash
-pip install -r api/requirements.txt
-```
-
-### 2️⃣ Train the Model
-```bash
-python training/train.py
-```
-This will generate `lgb_model.txt` inside the `training/` folder.
 
 ## 🚀 Improvements & Next Steps
 - Implement LSTM-based forecasting.

@@ -6,15 +6,31 @@ import os
 import lightgbm as lgb
 from datetime import datetime
 
+
+import os
+
+# Get project root directory
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Allow overriding model path via environment variable
+DEFAULT_MODEL_PATH = os.path.join(PROJECT_ROOT, "training", "lgb_model.txt")
+MODEL_PATH = os.getenv("MODEL_PATH", DEFAULT_MODEL_PATH)  # Use environment variable if set
+
+# Ensure the model file exists
+if not os.path.exists(MODEL_PATH):
+    raise FileNotFoundError(f"Model file not found: {MODEL_PATH}")
+
+print(f"✅ Model to be loaded from: {MODEL_PATH}")
+
 # Correct the model path
-model_path = os.path.join(os.path.dirname(__file__), "training/lgb_model.txt")
+# model_path = os.path.join(os.path.dirname(__file__), "training/lgb_model.txt")
 
 # Verify if the file exists before loading
-if not os.path.exists(model_path):
-    raise FileNotFoundError(f"Model file not found: {model_path}")
+if not os.path.exists(MODEL_PATH):
+    raise FileNotFoundError(f"Model file not found: {MODEL_PATH}")
 
 # # Load the model
-model = lgb.Booster(model_file=model_path)
+model = lgb.Booster(model_file=MODEL_PATH)
 print("Model loaded successfully!")
 
 # Initialize API
