@@ -18,7 +18,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY api app
 
 # Copy the trained model into the container
-COPY training/lgb_model.pkl app/training/lgb_model.pkl
+COPY training/lgb_model.txt app/training/lgb_model.txt
 
 # Expose the port
 EXPOSE 8000
