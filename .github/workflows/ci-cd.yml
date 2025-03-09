@@ -29,6 +29,7 @@ jobs:
           python -m venv venv
           source venv/bin/activate
           pip install --upgrade pip
+          pip install Cython numpy  # Fix for pystan error
           pip install -r api/requirements.txt
           pip install pytest
 
