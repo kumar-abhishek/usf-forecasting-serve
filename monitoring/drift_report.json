@@ -1,0 +1,34 @@
+{
+    "data_drift": {
+        "store": {
+            "KS Statistic": 0.0,
+            "p-value": 1.0,
+            "Drift Detected": false
+        },
+        "item": {
+            "KS Statistic": 0.0,
+            "p-value": 1.0,
+            "Drift Detected": false
+        },
+        "month": {
+            "KS Statistic": 0.9151150054764513,
+            "p-value": 0.0,
+            "Drift Detected": true
+        },
+        "day": {
+            "KS Statistic": 0.03840817816721431,
+            "p-value": 2.3663867996509736e-19,
+            "Drift Detected": true
+        },
+        "year": {
+            "KS Statistic": 1.0,
+            "p-value": 0.0,
+            "Drift Detected": true
+        }
+    },
+    "prediction_drift": {
+        "MAE Shift": 5.062979197166505,
+        "Drift Detected": true
+    },
+    "timestamp": "2025-03-09 00:48:52.763556"
+}

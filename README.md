@@ -119,6 +119,10 @@ docker rm $(docker ps -aq)  # Remove stopped containers
 docker rmi forecast-api  # Remove the image
 ```
 
+## Drift monitoring
+```
+PYTHONPATH=. python monitoring/drift_monitor.py
+```
 
 ## 🔍 SHAP Model Explainability
 
