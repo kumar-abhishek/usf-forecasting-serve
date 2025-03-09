@@ -119,6 +119,31 @@ docker rm $(docker ps -aq)  # Remove stopped containers
 docker rmi forecast-api  # Remove the image
 ```
 
+
+## 🔍 SHAP Model Explainability
+
+To understand how our trained LightGBM model makes predictions, we use **SHAP (SHapley Additive exPlanations)**. SHAP provides insights into **which features drive the model's predictions**, their importance, and their interaction effects.
+
+### 📊 SHAP Analysis Includes:
+1. **SHAP Summary Plot:** Shows how each feature impacts the prediction (positive or negative).  
+2. **SHAP Bar Plot:** Ranks feature importance based on average absolute SHAP values.  
+3. **SHAP Dependence Plot:** Examines interactions between features and their effect on predictions.
+
+### 📁 Outputs:
+All SHAP plots are saved inside the `shap_plots/` directory:
+- `shap_summary_plot.png`
+- `shap_bar_plot.png`
+- `shap_dependence_plot.png`
+
+### 📜 Detailed Explanation:
+For a full explanation of these plots and how to interpret them, check out the **[SHAP Explanation Guide](./shap_plots/shap_explanation.md)**.
+
+### 📌 Running SHAP Analysis:
+To generate SHAP plots, run:
+```bash
+python monitoring/shap_analysis.py
+```
+
 ## 🚀 Improvements & Next Steps
 - Implement LSTM-based forecasting.
 - Deploy API using AWS Lambda for serverless inference.
