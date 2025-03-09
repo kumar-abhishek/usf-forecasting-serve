@@ -32,7 +32,7 @@ jobs:
           pip install --upgrade pip setuptools wheel
           # pip install Cython numpy  # Fix for pystan error
           # pip install pystan==2.19.1.1
-          pip install git+https://github.com/stan-dev/pystan2
+          # pip install git+https://github.com/stan-dev/pystan2
           pip install -r api/requirements.txt
 
       - name: Run Tests
