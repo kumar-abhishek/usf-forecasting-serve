@@ -129,7 +129,7 @@ def monitor_drift(recent_data_path):
 def retrain_model():
     """Placeholder function for triggering retraining."""
     print("🔄 Triggering model retraining...")
-    # Here you can call `training/train.py` or an automated pipeline
+    # Here we can call `training/train.py` or an automated pipeline
 
 # Run monitoring (for example, using `data/recent_sales.csv`)
 if __name__ == "__main__":
