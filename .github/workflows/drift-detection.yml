@@ -1,0 +1,48 @@
+name: Drift Detection Workflow
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # Runs daily at midnight UTC
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
+
+jobs:
+  detect-drift:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install Dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r api/requirements.txt
+
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
+
+      - name: Run Drift Monitoring
+        run: |
+          source venv/bin/activate
+          PYTHONPATH=. python monitoring/drift_monitor.py
+
+      - name: Check for Drift
+        run: |
+          if grep -q '"Drift Detected": true' monitoring/drift_report.json; then
+            echo "🚨 Model drift detected! Consider retraining."
+            exit 1  # Fail the job if drift is detected
+          else
+            echo "✅ No significant drift detected."
+          fi
+
+      - name: Upload Drift Report as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: drift-report
+          path: monitoring/drift_report.json
