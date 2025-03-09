@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import json
-import joblib
+import os
 import lightgbm as lgb
 from scipy.stats import ks_2samp
 from datetime import datetime
@@ -37,51 +37,6 @@ def detect_prediction_drift(reference_preds, new_preds, threshold=0.1):
     drift_score = abs(mae_ref - mae_new) / mae_ref
     return {"MAE Shift": drift_score, "Drift Detected": drift_score > threshold}
 
-# Run model drift checks
-def monitor_drift2(recent_data_path):
-    print("🔍 Running Model Drift Monitoring...")
-    
-    # Load recent data
-    new_data = load_recent_data(recent_data_path)
-    
-    # Feature engineering for new data
-    new_data["date"] = pd.to_datetime(new_data["date"])
-    new_data["month"] = new_data["date"].dt.month
-    new_data["day"] = new_data["date"].dt.dayofweek
-    new_data["year"] = new_data["date"].dt.year
-
-    # Ensure feature consistency
-    new_data = new_data[FEATURES]
-
-    # Detect data drift
-    data_drift_results = detect_data_drift(train_df[FEATURES], new_data)
-
-    # Get predictions
-    new_preds = model.predict(new_data)
-    reference_preds = model.predict(train_df[FEATURES][:len(new_data)])
-
-    # Detect prediction drift
-    prediction_drift_results = detect_prediction_drift(reference_preds, new_preds)
-
-    # Save drift report
-    drift_report = {
-        "data_drift": data_drift_results,
-        "prediction_drift": prediction_drift_results,
-        "timestamp": str(datetime.now())
-    }
-    
-    with open("monitoring/drift_report.json", "w") as f:
-        json.dump(drift_report, f, indent=4)
-    
-    print("✅ Drift Monitoring Complete! Report saved to `monitoring/drift_report.json`.")
-
-    # If drift detected, trigger retraining (placeholder function)
-    if any([res["Drift Detected"] for res in data_drift_results.values()]) or prediction_drift_results["Drift Detected"]:
-        print("🚨 Drift Detected! Retraining Needed.")
-        retrain_model()
-    else:
-        print("✅ No Significant Drift Detected.")
-
 # Feature Engineering Function
 def add_time_features(df):
     """Add time-based features (month, day, year) from the date column."""
@@ -94,32 +49,6 @@ def add_time_features(df):
 # Load historical training data
 train_df = pd.read_csv(TRAIN_DATA_PATH)
 train_df = add_time_features(train_df)  # Apply feature engineering
-
-# Load new data & apply feature engineering
-def monitor_drift3(recent_data_path):
-    print("🔍 Running Model Drift Monitoring...")
-
-    new_data = pd.read_csv(recent_data_path)
-    new_data = add_time_features(new_data)  # Ensure consistency
-
-    # Ensure feature consistency
-    new_data = new_data[FEATURES]
-    train_features = train_df[FEATURES]  # Ensure features exist in train_df
-
-    # Detect data drift
-    data_drift_results = detect_data_drift(train_features, new_data)
-
-    # Get predictions
-    new_preds = model.predict(new_data)
-    reference_preds = model.predict(train_features[:len(new_data)])
-
-    # Detect prediction drift
-    prediction_drift_results = detect_prediction_drift(reference_preds, new_preds)
-
-    print("✅ Drift Monitoring Complete! Report saved.")
-
-import json
-import os
 
 DRIFT_REPORT_PATH = "monitoring/drift_report.json"
 
@@ -147,7 +76,7 @@ def convert_numpy(obj):
     else:
         return obj
     
-
+# Run model drift checks
 def monitor_drift(recent_data_path):
     print("🔍 Running Model Drift Monitoring...")
 
