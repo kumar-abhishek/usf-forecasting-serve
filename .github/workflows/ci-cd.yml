@@ -35,6 +35,9 @@ jobs:
           # pip install git+https://github.com/stan-dev/pystan2
           pip install -r api/requirements.txt
 
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
+
       - name: Run Tests
         run: |
           source venv/bin/activate
