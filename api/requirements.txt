@@ -3,11 +3,11 @@ matplotlib
 seaborn
 plotly
 statsmodels
-xgboost
+# xgboost
 lightgbm
 scikit-learn
-pystan==2.19.1.1
-prophet
+# pystan==2.19.1.1
+# prophet
 fastapi
 uvicorn
 pytest 
