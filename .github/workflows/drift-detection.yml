@@ -42,7 +42,7 @@ jobs:
           fi
 
       - name: Upload Drift Report as Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: drift-report
           path: monitoring/drift_report.json
